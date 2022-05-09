@@ -8,10 +8,7 @@ router.get('/', (req, res) => {
   // find all products
   Product.findAll({
     include:{
-      model: Category
-    },
-    include:{
-      model: Tag
+      model: Category,Tag
     }
   })
   .then(dbProductData => res.json(dbProductData))
@@ -30,15 +27,12 @@ router.get('/:id', (req, res) => {
       id: req.params.id
     },
     include:{
-      model: Category
-    },
-    include:{
-      model: Tag
+      model: Category,Tag
     }
   })
   .then(dbProductData => {
     if (!dbProductData) {
-      res.status(404).json({ message: 'No Category found with this id' });
+      res.status(404).json({ message: 'No product found with this id' });
       return;
     }
     res.json(dbProductData);
@@ -64,7 +58,7 @@ router.post('/', (req, res) => {
     product_name: req.body.product_name,
     price: req.body.price,
     stock: req.body.stock,
-    tag_id: req.body.tag_id
+    category_id: req.body.category_id
   })
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -137,7 +131,7 @@ router.delete('/:id', (req, res) => {
 })
 .then(dbProductData => {
   if (!dbProductData) {
-    res.status(404).json({ message: 'No Category found with this id' });
+    res.status(404).json({ message: 'No product found with this id' });
     return;
   }
   res.json(dbProductData);

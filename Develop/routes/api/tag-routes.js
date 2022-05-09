@@ -7,11 +7,8 @@ router.get('/', (req, res) => {
   // find all tags
   Tag.findAll({
     include:{
-      model: Product
+      model: Product , ProductTag
     },
-    include:{
-      model: ProductTag
-    }
   })
   .then(dbTagData => res.json(dbTagData))
   .catch(err => {
@@ -24,15 +21,12 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Tag.findOne({
     include:{
-      model: Product
-    },
-    include:{
-      model: ProductTag
+      model: Product, ProductTag
     }
   })
   .then(dbTagData => {
     if (!dbTagData) {
-      res.status(404).json({ message: 'No Category found with this id' });
+      res.status(404).json({ message: 'No tag found with this id' });
       return;
     }
     res.json(dbTagData);
